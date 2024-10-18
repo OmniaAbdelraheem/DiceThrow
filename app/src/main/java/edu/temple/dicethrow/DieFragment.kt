@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlin.random.Random
 
 class DieFragment : Fragment() {
@@ -19,9 +20,7 @@ class DieFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            it.getInt(DIESIDE).run {
-                dieSides = this
-            }
+                dieSides = it.getInt(DIESIDE, 6)
         }
     }
 
@@ -38,12 +37,24 @@ class DieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         throwDie()
-        view.setOnClickListener{
+        view.setOnClickListener {
             throwDie()
         }
     }
 
     fun throwDie() {
-        dieTextView.text = Random.nextInt(dieSides+1).toString()
+        val rollResult = Random.nextInt(1, (dieSides) + 1).toString()
+        dieTextView.text = rollResult.toString()
     }
+
+
+    companion object {
+        fun newInstance(sides: Int) : DieFragment {
+        val fragment = DieFragment()
+        val bundle = Bundle()
+        bundle.putInt("sidenumber", sides)
+        fragment.arguments = bundle
+        return fragment
+    }
+}
 }
