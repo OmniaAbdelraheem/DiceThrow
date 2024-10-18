@@ -15,7 +15,7 @@ class DieFragment : Fragment() {
 
     lateinit var dieTextView: TextView
 
-    var dieSides: Int = 6
+    var dieSides: Int = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class DieFragment : Fragment() {
 
     fun throwDie() {
         val rollResult = Random.nextInt(1, (dieSides) + 1).toString()
-        dieTextView.text = rollResult.toString()
+        dieTextView.text = rollResult
     }
 
 
