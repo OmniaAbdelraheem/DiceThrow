@@ -1,31 +1,30 @@
 package edu.temple.dicethrow
 
 import android.os.Bundle
-import android.view.View.OnClickListener
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView.OnCloseListener
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
+class MainActivity : AppCompatActivity(), ButtonFragment.ButtonInterface {
 
-class MainActivity : AppCompatActivity() {
+    private var dieFragment: DieFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        if(supportFragmentManager.findFragmentById(R.id.dieContainer)
-                    !is DieFragment)
+        if (supportFragmentManager.findFragmentById(R.id.dieContainer)
+                    !is DieFragment) {
+            dieFragment = DieFragment.newInstance(100)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.dieContainer, DieFragment.newInstance(100))
+                .replace(R.id.dieContainer, dieFragment!!)
                 .commit()
-
-        findViewById<Button>(R.id.rollDiceButton).setOnClickListener {
-
-            (supportFragmentManager.findFragmentById(R.id.dieContainer) as? DieFragment)?.throwDie()
+        }
+        if (supportFragmentManager.findFragmentById(R.id.buttonContainer)
+                    !is ButtonFragment) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.buttonContainer, ButtonFragment())
+                .commit()
         }
     }
-
+    override fun ButtonClicked() {
+        dieFragment?.throwDie()
+    }
 }
-
