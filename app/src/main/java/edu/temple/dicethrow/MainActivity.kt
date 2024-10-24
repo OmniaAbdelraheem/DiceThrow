@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity(), ButtonFragment.ButtonInterface {
         setContentView(R.layout.activity_main)
         if (supportFragmentManager.findFragmentById(R.id.dieContainer)
                     !is DieFragment) {
-            dieFragment = DieFragment.newInstance(100)
+            dieFragment = DieFragment.newInstance(6)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.dieContainer, dieFragment!!)
                 .commit()
